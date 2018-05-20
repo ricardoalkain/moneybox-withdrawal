@@ -3,16 +3,16 @@
 ## My comments
 
 ### Account class
-* I included constants for the values that trigger notifications, this way we remove hardcoded values. In a real application, I believe these values would be loaded from app settings.
-* The protected constructor and set methods aim to allow persistence/serialization to work fine and to keep the account values read-only for other non-inherited classes. This way, only Account class methods can modify theses properties and so enforce their correct usage.
+* I included constants for the values that trigger notifications, this way we can remove hardcoded values. In a real application, I believe these values would be loaded from app settings to allow flexibility.
+* The protected constructor and set methods aim to allow persistence/serialization to work fine and to keep the account values read-only for other non-inherited classes. This way, only Account class methods can modify theses properties and so it enforces their correct usage.
 
 ### TransferMoney class
 * Refactored to comply with new Account class design. The result is a simpler code.
 * Notification logic was kept inside this class to avoid calling NotificationService from Account. I tried to keep the minimum change possible but in a full app maybe notification could be invoked by Account changes (through an observer pattern, maybe?)
-* As this class use two operation from different accounts, it still lacks some logic to keep data consistent in the case when the repository successfully updates *source* (from) account but fails to update *target* (to) account. Would be a nice idea to implement a rollback operation in *source* if an exception is thrown when updating *target*. Once again, to keep changes minimum and for not trying to "predict requirements", I've left it as it is.
+* As this class uses two operation from different accounts, it still lacks some logic to keep data consistent in the case when the repository successfully updates *source* (from) account but fails to update *target* (to) account. It would be a nice idea to implement a rollback operation in *source* if an exception is thrown when updating *target*. Once again, to keep changes minimum and for not trying to "predict requirements", I've left it as it is.
 
 ### WithdrawMoney class
-No great news here. an simpler "one-way" version of TransferMoney class.
+No great news here. A simpler "one-way" version of TransferMoney class.
 
 ## Description
 
