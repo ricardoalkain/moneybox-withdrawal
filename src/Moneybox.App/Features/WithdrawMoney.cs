@@ -1,6 +1,6 @@
-﻿using Moneybox.App.DataAccess;
+﻿using System;
+using Moneybox.App.DataAccess;
 using Moneybox.App.Domain.Services;
-using System;
 
 namespace Moneybox.App.Features
 {
@@ -17,7 +17,17 @@ namespace Moneybox.App.Features
 
         public void Execute(Guid fromAccountId, decimal amount)
         {
-            // TODO:
+            var account = this.accountRepository.GetAccountById(fromAccountId);
+
+            account.Withdraw(amount);
+
+            this.accountRepository.Update(account);
+
+            // Only notify user if the operation was successful (no exception thrown)
+            if (account.Balance < Account.LowFundsWarningValue)
+            {
+                this.notificationService.NotifyFundsLow(account.User.Email);
+            }
         }
     }
 }
